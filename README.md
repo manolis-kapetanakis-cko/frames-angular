@@ -1,27 +1,84 @@
-# AngularTestPackage
+❗️BETA
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.2.
+This project is a minimal Angular wrapper of [Checkout.com Frames](https://docs.checkout.com/integrate/frames). This version only supports the [multiple iframes](https://docs.checkout.com/integrate/frames/frames-customization-guide#Framescustomizationguide-Multipleiframes) configuration in beta version.
 
-## Development server
+# :rocket: Install
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```bash
+npm install frames-angular-beta
+```
 
-## Code scaffolding
+# :globe_with_meridians: Load the CDN script
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Make sure that you load the Checkout&#46;com CDN script before you mount any Frames components. You can add this, for example, in your _index.html_ file.
 
-## Build
+```html
+<script src="https://cdn.checkout.com/js/framesv2.min.js"></script>
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# :sparkles: Import the main component
 
-## Running end-to-end tests
+```js
+import { AngularFramesBeta } from 'frames-angular-beta';
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+# :book: Example Usage
 
-## Further help
+To tokenize the payment card, this wrapper includes method `submitCard()`. In the below example, we call this when the "Pay Now" button is clicked.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```js
+<label for="card-number">CARD NUMBER</label>
+  <card-number></card-number>
+  <div class="date-and-code">
+    <div>
+      <label for="expiry-date">EXPIRY DATE</label>
+      <div class="input-container expiry-date">
+        <expiry-date></expiry-date>
+      </div>
+    </div>
+    <div>
+      <label for="cvv">SECURITY CODE</label>
+      <div class="input-container cvv">
+        <cvv></cvv>
+      </div>
+    </div>
+  </div>
+  <button ion-button (click)="submitCard()" id="pay-button" disabled="">
+    PAY NOW
+  </button>
+```
+
+```js
+async submitCard() {
+    let payload = await this.Frames.getTokenisedCard();
+    this.cardToken = 'The card token: ' + payload.token;
+  }
+```
+
+
+## Props
+
+| prop                   | description                                                                                                                                              |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| config                 | The config is an object following [Checkout.com Frames reference](https://docs.checkout.com/integrate/frames/frames-reference#Framesreference-Configurationoptions). |
+| ready                  | Triggered when Frames is registered on the global namespace and safe to use.                                                                             |
+| frameActivated         | Triggered when the form is rendered.                                                                                                                     |
+| frameFocus             | Triggered when an input field receives focus. Use it to check the validation status and apply the wanted UI changes.                                     |
+| frameBlur              | Triggered after an input field loses focus. Use it to check the validation status and apply the wanted UI changes.                                       |
+| frameValidationChanged | Triggered when a field's validation status has changed. Use it to show error messages or update the UI.                                                  |
+| paymentMethodChanged   | Triggered when a valid payment method is detected based on the card number being entered. Use this event to change the card icon.                        |
+| cardValidationChanged  | Triggered when the state of the card validation changes.                                                                                                 |
+| cardSubmitted          | Triggered when the card form has been submitted.                                                                                                         |
+| cardTokenized          | Triggered after a card is tokenized.                                                                                                                     |
+| cardTokenizationFailed | Triggered if the card tokenization fails.                                                                                                                |
+
+## Functions
+
+| function               | description                                                                                                          |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| init                   | Initializes (or re-initializes) Frames.                                                                              |
+| isCardValid            | Returns the state of the card form validation.                                                                       |
+| submitCard             | Submits the card form if all form values are valid.                                                                  |
+| enableSubmitForm       | Retains the entered card details and allows you to resubmit the payment form.                                        |
