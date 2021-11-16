@@ -65,7 +65,7 @@ ngOnInit() {
     });
     this.Frames.init();
   }
-
+...
 async submitCard() {
     let payload = await this.Frames.getTokenisedCard();
     this.cardToken = 'The card token: ' + payload.token;
