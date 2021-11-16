@@ -57,7 +57,7 @@ To tokenize the payment card, this wrapper includes method `submitCard()`. In th
 ```js
 ngOnInit() {
     this.Frames = new CkoFrames({
-      publicKey: 'pk_test_7d9921be-b71f-47fa-b996-29515831d911',
+      publicKey: '<<your public key>>',
       cardValidationChanged: this.onCardValidationChanged.bind(this),
       frameValidationChanged: this.onValidationChanged.bind(this),
       cardTokenizationFailed: this.onCardTokenizationFailed.bind(this),
