@@ -29,7 +29,8 @@ import { AngularFramesBeta } from 'frames-angular-beta';
 To tokenize the payment card, this wrapper includes method `submitCard()`. In the below example, we call this when the "Pay Now" button is clicked.
 
 ```js
-<label for="card-number">CARD NUMBER</label>
+<div id="payment-form">
+  <label for="card-number">CARD NUMBER</label>
   <card-number></card-number>
   <div class="date-and-code">
     <div>
@@ -48,9 +49,23 @@ To tokenize the payment card, this wrapper includes method `submitCard()`. In th
   <button ion-button (click)="submitCard()" id="pay-button" disabled="">
     PAY NOW
   </button>
+
+  <p class="success-payment-message">{{ cardToken }}</p>
+</div>
 ```
 
 ```js
+ngOnInit() {
+    this.Frames = new CkoFrames({
+      publicKey: 'pk_test_7d9921be-b71f-47fa-b996-29515831d911',
+      cardValidationChanged: this.onCardValidationChanged.bind(this),
+      frameValidationChanged: this.onValidationChanged.bind(this),
+      cardTokenizationFailed: this.onCardTokenizationFailed.bind(this),
+      paymentMethodChanged: this.onPaymentMethodChanged.bind(this)
+    });
+    this.Frames.init();
+  }
+
 async submitCard() {
     let payload = await this.Frames.getTokenisedCard();
     this.cardToken = 'The card token: ' + payload.token;

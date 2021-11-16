@@ -13,8 +13,7 @@ import { AngularFramesBeta } from "frames-angular-beta";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularFramesBeta,
-    // FramesComponent
+    AngularFramesBeta
   ],
   providers: [],
   bootstrap: [AppComponent]

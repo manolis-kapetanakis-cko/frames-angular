@@ -55,8 +55,6 @@ export class AppComponent {
       paymentMethodChanged: this.onPaymentMethodChanged.bind(this)
     });
     this.Frames.init();
-    console.log("THIS FRAMES")
-    console.log(this.Frames.getFrames())
   }
 
   //FRAME_VALIDATION_CHANGED
