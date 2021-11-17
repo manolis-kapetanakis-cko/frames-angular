@@ -13,27 +13,8 @@ export class AppComponent {
   private Frames = undefined;
   private errors = {};
   public cardToken: string;
-  public logos = {}
 
   constructor() {
-    this.logos = generateLogos();
-    function generateLogos() {
-      const logos = {};
-      logos["card-number"] = {
-        src: "card",
-        alt: "card number logo"
-      };
-      logos["expiry-date"] = {
-        src: "exp-date",
-        alt: "expiry date logo"
-      };
-      logos["cvv"] = {
-        src: "cvv",
-        alt: "cvv logo"
-      };
-      return logos;
-    }
-
     this.errors["card-number"] = "Please enter a valid card number";
     this.errors["expiry-date"] = "Please enter a valid expiry date";
     this.errors["cvv"] = "Please enter a valid cvv code";
@@ -42,9 +23,9 @@ export class AppComponent {
   ngOnInit() {
     this.Frames = new CkoFrames({
       publicKey: 'pk_test_7d9921be-b71f-47fa-b996-29515831d911',
-      debug: true,
+      // debug: true,
       // localization: {
-      //   cardNumberPlaceholder: "Card number",
+      //   cardNumberPlaceholder: "CARD NUMBER",
       //   expiryMonthPlaceholder: "MM",
       //   expiryYearPlaceholder: "YY",
       //   cvvPlaceholder: "CVV",
@@ -59,22 +40,18 @@ export class AppComponent {
 
   //FRAME_VALIDATION_CHANGED
   onValidationChanged(event) {
-    console.log("FRAME_VALIDATION_CHANGED: %o", event);
+    // console.log("FRAME_VALIDATION_CHANGED: %o", event);
 
     const e = event.element;
     if (event.isValid || event.isEmpty) {
       if (e == "card-number" && !event.isEmpty) {
         this.showPaymentMethodIcon(null, null);
       }
-      this.setDefaultIcon(e);
-      this.clearErrorIcon(e);
       this.clearErrorMessage(e);
     } else {
       if (e == "card-number") {
         this.clearPaymentMethodIcon(null);
       }
-      this.setDefaultErrorIcon(e);
-      this.setErrorIcon(e);
       this.setErrorMessage(e);
     }
   }
@@ -85,27 +62,16 @@ export class AppComponent {
     message.textContent = "";
   }
 
-  clearErrorIcon(el) {
-    const logo = <HTMLInputElement>document.getElementById("icon-" + el + "-error");
-
-  }
-
   showPaymentMethodIcon(parent, pm) {
     if (parent) parent.classList.add("show");
 
-    // const logo = <HTMLInputElement>document.getElementById("logo-payment-method");
     if (pm) {
       const name = pm.toLowerCase();
-      // logo.setAttribute("src", "assets/card-icons/" + name + ".svg");
-      // logo.setAttribute("alt", pm || "payment method");
     }
-
   }
 
   clearPaymentMethodIcon(parent) {
     if (parent) parent.classList.remove("show");
-    // const logo = <HTMLInputElement>document.getElementById("logo-payment-method");
-    // logo.style.setProperty("display", "none");
   }
 
   setErrorMessage(el) {
@@ -114,30 +80,11 @@ export class AppComponent {
     message.textContent = this.errors[el];
   }
 
-  setDefaultIcon(el) {
-    const selector = "icon-" + el;
-    const logo = <HTMLInputElement>document.getElementById(selector);
-    // logo.setAttribute("src", "assets/card-icons/" + this.logos[el].src + ".svg");
-    // logo.setAttribute("alt", this.logos[el].alt);
-  }
-
-  setDefaultErrorIcon(el) {
-    const selector = "icon-" + el;
-    const logo = <HTMLInputElement>document.getElementById(selector);
-    // logo.setAttribute("src", "assets/card-icons/" + this.logos[el].src + "-error.svg");
-    // logo.setAttribute("alt", this.logos[el].alt);
-  }
-
-  setErrorIcon(el) {
-    const logo = <HTMLInputElement>document.getElementById("icon-" + el + "-error");
-    // logo.style.setProperty("display", "block");
-  }
-
   //CARD_VALIDATION_CHANGED
   onCardValidationChanged(event) {
     const button = <HTMLInputElement>document.getElementById('pay-button');
     const errorMessage = <HTMLInputElement>document.querySelector(".error-message");
-    console.log("CARD_VALIDATION_CHANGED: %o", event);
+    // console.log("CARD_VALIDATION_CHANGED: %o", event);
     button.disabled = !this.Frames.getFrames().isCardValid();
     if (!this.Frames.getFrames().isCardValid()) {
       errorMessage.textContent = this.getErrorMessage(event);
@@ -153,7 +100,7 @@ export class AppComponent {
 
   //CARD_TOKENIZATION_FAILED
   onCardTokenizationFailed(error) {
-    console.log("CARD_TOKENIZATION_FAILED: %o", error);
+    // console.log("CARD_TOKENIZATION_FAILED: %o", error);
     this.Frames.enableSubmitForm();
   }
 
@@ -164,14 +111,13 @@ export class AppComponent {
 
   //PAYMENT_METHOD_CHANGED
   onPaymentMethodChanged(event) {
-    console.log("PAYMENT_METHOD_CHANGED: %o", event);
+    // console.log("PAYMENT_METHOD_CHANGED: %o", event);
     var pm = event.paymentMethod;
     let container = <HTMLInputElement>document.querySelector(".icon-container.payment-method");
 
     if (!pm) {
       this.clearPaymentMethodIcon(container);
     } else {
-      this.clearErrorIcon("card-number");
       this.showPaymentMethodIcon(container, pm);
     }
   }
