@@ -72,7 +72,9 @@ async submitCard() {
   }
 ```
 
-Include css files from [styles.css] and [app.component.css]
+
+Also, include css files from `styles.css` and `app.component.css`
+
 
 ## Props
 
