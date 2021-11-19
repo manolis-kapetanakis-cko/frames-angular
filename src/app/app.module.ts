@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { AngularFramesBeta } from "frames-angular-beta";
+import { Frames } from "frames-angular";
 
 @NgModule({
   declarations: [
@@ -13,7 +13,7 @@ import { AngularFramesBeta } from "frames-angular-beta";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularFramesBeta
+    Frames
   ],
   providers: [],
   bootstrap: [AppComponent]

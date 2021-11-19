@@ -5,7 +5,7 @@ This project is a minimal Angular wrapper of [Checkout.com Frames](https://docs.
 # :rocket: Install
 
 ```bash
-npm install frames-angular-beta
+npm install frames-angular
 ```
 
 # :globe_with_meridians: Load the CDN script
@@ -21,7 +21,7 @@ Make sure that you load the Checkout&#46;com CDN script before you mount any Fra
 # :sparkles: Import the main component
 
 ```js
-import { AngularFramesBeta } from 'frames-angular-beta';
+import { Frames } from 'frames-angular';
 ```
 
 # :book: Example Usage
